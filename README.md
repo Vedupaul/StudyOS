@@ -13,14 +13,6 @@
 - **Responsive Design**: Fully responsive UI with dark/light theme support
 
 ---
-
-## 💼 Resume-Ready Project Description
-
-### Short Version (for resume bullet points)
-> Built a full-stack study productivity web app using **Next.js 14**, **PostgreSQL**, **Prisma ORM**, and **Tailwind CSS**. Implemented Pomodoro timers, drag-and-drop daily planners, goal tracking, and analytics dashboards with session auto-save, JWT authentication, and achievement gamification. Designed normalized database schema with 12 tables, optimized queries with indexes and views, and created responsive UI with 20+ reusable components.
-
-### Detailed Version (for portfolio/project page)
-
 **StudyOS - Full-Stack Study Productivity Platform**
 
 Developed a comprehensive study management application that helps students build consistent study habits through structured time management and data-driven insights.
@@ -241,19 +233,9 @@ Through building StudyOS, I gained expertise in:
 
 ## 📄 License
 
-This project is available for portfolio and educational purposes.
+This project was made for portfolio and learning purposes
 
 ---
-
-## 👤 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Profile](https://linkedin.com/in/yourprofile)
-- Portfolio: [yourwebsite.com](https://yourwebsite.com)
-
----
-
 ## 🙏 Acknowledgments
 
 - Inspiration: Pomodoro Technique by Francesco Cirillo
@@ -263,6 +245,7 @@ This project is available for portfolio and educational purposes.
 
 ---
 
-**Built with ❤️ and ☕ by [Your Name]**
-#   S t u d y O S  
+**Built with ❤️ and ☕ by [Vedavrat_paul]**
+#   S t u d y O S 
+ 
  
