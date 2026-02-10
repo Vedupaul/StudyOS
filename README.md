@@ -192,7 +192,6 @@ Through building StudyOS, I gained expertise in:
 - Next.js App Router and server components
 - Complex state management with React Query
 - Drag-and-drop interactions with @dnd-kit
-- Data visualization with Recharts
 - Responsive design with Tailwind CSS
 
 **Backend Development**
@@ -216,21 +215,6 @@ Through building StudyOS, I gained expertise in:
 
 ---
 
-## 🔮 Future Enhancements
-
-1. **Collaboration Features**: Study groups and shared planners
-2. **Mobile App**: React Native version for iOS/Android
-3. **AI Insights**: ML-based study pattern analysis and recommendations
-4. **Calendar Integration**: Sync with Google Calendar
-5. **Spaced Repetition**: Integration with flashcard systems
-6. **Export Reports**: PDF study reports for review
-7. **Social Features**: Friend leaderboards and challenges
-8. **Focus Music**: Built-in ambient music player
-9. **Browser Extension**: Quick timer access from browser toolbar
-10. **Offline Mode**: PWA with offline capabilities
-
----
-
 ## 📄 License
 
 This project was made for portfolio and learning purposes
@@ -249,3 +233,4 @@ This project was made for portfolio and learning purposes
 #   S t u d y O S 
  
  
+
