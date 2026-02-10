@@ -1,0 +1,235 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String    @map("password_hash")
+  name          String
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  lastLogin     DateTime? @map("last_login") @db.Timestamptz(6)
+  isActive      Boolean   @default(true) @map("is_active")
+
+  preferences      UserPreferences?
+  subjects         Subject[]
+  studySessions    StudySession[]
+  dailyPlans       DailyPlan[]
+  weeklyGoals      WeeklyGoal[]
+  monthlyGoals     MonthlyGoal[]
+  streak           Streak?
+  userAchievements UserAchievement[]
+  notifications    Notification[]
+
+  @@map("users")
+}
+
+model UserPreferences {
+  id                   String   @id @default(uuid())
+  userId               String   @unique @map("user_id")
+  pomodoroDuration     Int      @default(25) @map("pomodoro_duration")
+  shortBreakDuration   Int      @default(5) @map("short_break_duration")
+  longBreakDuration    Int      @default(15) @map("long_break_duration")
+  timezone             String   @default("UTC")
+  theme                String   @default("light")
+  notificationsEnabled Boolean  @default(true) @map("notifications_enabled")
+  autoStartBreaks      Boolean  @default(false) @map("auto_start_breaks")
+  autoStartPomodoros   Boolean  @default(false) @map("auto_start_pomodoros")
+  createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_preferences")
+}
+
+model Subject {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  name        String
+  color       String   @default("#3B82F6")
+  icon        String?
+  description String?
+  isArchived  Boolean  @default(false) @map("is_archived")
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  studySessions StudySession[]
+  planTasks     PlanTask[]
+  weeklyGoals   WeeklyGoal[]
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@map("subjects")
+}
+
+model StudySession {
+  id              String    @id @default(uuid())
+  userId          String    @map("user_id")
+  subjectId       String?   @map("subject_id")
+  sessionType     String    @map("session_type")
+  taskName        String?   @map("task_name")
+  startTime       DateTime  @map("start_time") @db.Timestamptz(6)
+  endTime         DateTime? @map("end_time") @db.Timestamptz(6)
+  plannedDuration Int?      @map("planned_duration")
+  actualDuration  Int?      @map("actual_duration")
+  focusScore      Int?      @map("focus_score")
+  notes           String?
+  isCompleted     Boolean   @default(false) @map("is_completed")
+  interruptions   Int       @default(0)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([userId, startTime(sort: Desc)])
+  @@index([subjectId])
+  @@map("study_sessions")
+}
+
+model DailyPlan {
+  id                  String   @id @default(uuid())
+  userId              String   @map("user_id")
+  planDate            DateTime @map("plan_date") @db.Date
+  totalPlannedMinutes Int      @default(0) @map("total_planned_minutes")
+  totalActualMinutes  Int      @default(0) @map("total_actual_minutes")
+  notes               String?
+  isCompleted         Boolean  @default(false) @map("is_completed")
+  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks PlanTask[]
+
+  @@unique([userId, planDate])
+  @@index([userId, planDate(sort: Desc)])
+  @@map("daily_plans")
+}
+
+model PlanTask {
+  id              String   @id @default(uuid())
+  dailyPlanId     String   @map("daily_plan_id")
+  subjectId       String?  @map("subject_id")
+  taskName        String   @map("task_name")
+  description     String?
+  plannedDuration Int      @map("planned_duration")
+  actualDuration  Int      @default(0) @map("actual_duration")
+  taskOrder       Int      @default(0) @map("task_order")
+  status          String   @default("pending")
+  skipReason      String?  @map("skip_reason")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  dailyPlan DailyPlan @relation(fields: [dailyPlanId], references: [id], onDelete: Cascade)
+  subject   Subject?  @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([dailyPlanId])
+  @@map("plan_tasks")
+}
+
+model WeeklyGoal {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  subjectId     String?  @map("subject_id")
+  weekStartDate DateTime @map("week_start_date") @db.Date
+  weekEndDate   DateTime @map("week_end_date") @db.Date
+  targetMinutes Int      @map("target_minutes")
+  actualMinutes Int      @default(0) @map("actual_minutes")
+  description   String?
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, subjectId, weekStartDate])
+  @@index([userId, weekStartDate(sort: Desc)])
+  @@map("weekly_goals")
+}
+
+model MonthlyGoal {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  goalName      String   @map("goal_name")
+  description   String?
+  targetMinutes Int      @map("target_minutes")
+  actualMinutes Int      @default(0) @map("actual_minutes")
+  monthYear     String   @map("month_year")
+  subjects      String[] @default([])
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, monthYear, goalName])
+  @@index([userId, monthYear(sort: Desc)])
+  @@map("monthly_goals")
+}
+
+model Streak {
+  id             String    @id @default(uuid())
+  userId         String    @unique @map("user_id")
+  currentStreak  Int       @default(0) @map("current_streak")
+  longestStreak  Int       @default(0) @map("longest_streak")
+  lastStudyDate  DateTime? @map("last_study_date") @db.Date
+  totalStudyDays Int       @default(0) @map("total_study_days")
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("streaks")
+}
+
+model Achievement {
+  id               String   @id @default(uuid())
+  name             String   @unique
+  description      String?
+  icon             String?
+  category         String?
+  requirementValue Int?     @map("requirement_value")
+  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  userAchievements UserAchievement[]
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  id            String   @id @default(uuid())
+  userId        String   @map("user_id")
+  achievementId String   @map("achievement_id")
+  earnedAt      DateTime @default(now()) @map("earned_at") @db.Timestamptz(6)
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  title     String
+  message   String?
+  type      String   @default("info")
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt(sort: Desc)])
+  @@map("notifications")
+}
