@@ -222,15 +222,14 @@ This project was made for portfolio and learning purposes
 ---
 ## 🙏 Acknowledgments
 
-- Inspiration: Pomodoro Technique by Francesco Cirillo
+- Inspiration: The sole motive of building this project as there was no website/app in the market consisting of these features under one roof. 
 - UI Design: Inspired by modern productivity apps (Notion, Todoist, Forest)
 - Icons: Lucide React
 - Color Palette: Tailwind CSS default theme
 
 ---
+ 
+ 
+ 
 
-**Built with ❤️ and ☕ by [Vedavrat_paul]**
-#   S t u d y O S 
- 
- 
 
