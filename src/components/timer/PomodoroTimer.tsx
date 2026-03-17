@@ -8,31 +8,43 @@ import { cn } from '@/lib/utils'
 
 interface TimerProps {
     onComplete?: (session: { duration: number, taskId?: string }) => void
+    workDuration?: number // in minutes
+    breakDuration?: number // in minutes
 }
 
-export function PomodoroTimer({ onComplete }: TimerProps) {
+export function PomodoroTimer({ 
+    onComplete,
+    workDuration = 25,
+    breakDuration = 5
+}: TimerProps) {
     const [mode, setMode] = useState<'work' | 'break'>('work')
-    const [timeLeft, setTimeLeft] = useState(25 * 60)
+    const [timeLeft, setTimeLeft] = useState(workDuration * 60)
     const [isActive, setIsActive] = useState(false)
     const [totalSeconds, setTotalSeconds] = useState(0)
 
-    const workDuration = 25 * 60
-    const breakDuration = 5 * 60
+    const workSeconds = workDuration * 60
+    const breakSeconds = breakDuration * 60
+
+    useEffect(() => {
+        if (!isActive) {
+            setTimeLeft(mode === 'work' ? workSeconds : breakSeconds)
+        }
+    }, [workDuration, breakDuration, mode, isActive, workSeconds, breakSeconds])
 
     const toggleTimer = () => setIsActive(!isActive)
 
     const resetTimer = useCallback(() => {
         setIsActive(false)
-        setTimeLeft(mode === 'work' ? workDuration : breakDuration)
+        setTimeLeft(mode === 'work' ? workSeconds : breakSeconds)
         setTotalSeconds(0)
-    }, [mode, workDuration, breakDuration])
+    }, [mode, workSeconds, breakSeconds])
 
     const switchMode = useCallback(() => {
         const newMode = mode === 'work' ? 'break' : 'work'
         setMode(newMode)
-        setTimeLeft(newMode === 'work' ? workDuration : breakDuration)
+        setTimeLeft(newMode === 'work' ? workSeconds : breakSeconds)
         setIsActive(false)
-    }, [mode, workDuration, breakDuration])
+    }, [mode, workSeconds, breakSeconds])
 
     useEffect(() => {
         let interval: NodeJS.Timeout | null = null
@@ -64,7 +76,7 @@ export function PomodoroTimer({ onComplete }: TimerProps) {
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
     }
 
-    const progress = ((mode === 'work' ? workDuration : breakDuration) - timeLeft) / (mode === 'work' ? workDuration : breakDuration) * 100
+    const progress = (timeLeft / (mode === 'work' ? workSeconds : breakSeconds)) * 100
 
     return (
         <div className="flex flex-col items-center space-y-8">
@@ -87,7 +99,7 @@ export function PomodoroTimer({ onComplete }: TimerProps) {
                         stroke="currentColor"
                         strokeWidth="8"
                         strokeDasharray={2 * Math.PI * 150}
-                        strokeDashoffset={2 * Math.PI * 150 * (1 - progress / 100)}
+                        strokeDashoffset={2 * Math.PI * 150 * (progress / 100)}
                         strokeLinecap="round"
                         className={cn(
                             "transition-all duration-1000",
@@ -143,22 +155,22 @@ export function PomodoroTimer({ onComplete }: TimerProps) {
 
             <div className="flex gap-2">
                 <button
-                    onClick={() => { setMode('work'); setTimeLeft(workDuration); setIsActive(false); }}
+                    onClick={() => { setMode('work'); setTimeLeft(workSeconds); setIsActive(false); }}
                     className={cn(
                         "px-4 py-2 rounded-full text-xs font-bold transition-all",
                         mode === 'work' ? "bg-indigo-500 text-white shadow-lg shadow-indigo-500/30" : "bg-slate-100 dark:bg-slate-900 text-slate-500"
                     )}
                 >
-                    Focus (25m)
+                    Focus ({workDuration}m)
                 </button>
                 <button
-                    onClick={() => { setMode('break'); setTimeLeft(breakDuration); setIsActive(false); }}
+                    onClick={() => { setMode('break'); setTimeLeft(breakSeconds); setIsActive(false); }}
                     className={cn(
                         "px-4 py-2 rounded-full text-xs font-bold transition-all",
                         mode === 'break' ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/30" : "bg-slate-100 dark:bg-slate-900 text-slate-500"
                     )}
                 >
-                    Short Break (5m)
+                    Short Break ({breakDuration}m)
                 </button>
             </div>
         </div>

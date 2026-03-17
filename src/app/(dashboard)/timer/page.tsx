@@ -68,6 +68,9 @@ export default function TimerPage() {
         }
     }
 
+    const [focusMinutes, setFocusMinutes] = useState(25)
+    const [breakMinutes, setBreakMinutes] = useState(5)
+
     return (
         <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -85,7 +88,11 @@ export default function TimerPage() {
                 <div className="lg:col-span-2 space-y-8">
                     <div className="bg-white dark:bg-slate-900/40 border-2 border-slate-100 dark:border-slate-800 rounded-[3.5rem] p-12 lg:p-20 shadow-2xl shadow-indigo-500/5 flex flex-col items-center relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:scale-110 transition-transform"></div>
-                        <PomodoroTimer onComplete={handleComplete} />
+                        <PomodoroTimer 
+                            onComplete={handleComplete} 
+                            workDuration={focusMinutes}
+                            breakDuration={breakMinutes}
+                        />
                     </div>
 
                     <div className="grid sm:grid-cols-3 gap-6">
@@ -160,30 +167,45 @@ export default function TimerPage() {
                     <Card className="rounded-[3rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 backdrop-blur-xl p-10 shadow-xl overflow-hidden relative">
                         <div className="absolute -left-10 -bottom-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
                         <h3 className="text-lg font-black uppercase italic tracking-tight mb-8 flex items-center gap-3">
-                            <Settings2 className="w-5 h-5 text-indigo-500" /> Auto-Config
+                            <Settings2 className="w-5 h-5 text-indigo-500" /> Timer Config
                         </h3>
-                        <div className="space-y-6">
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                    <span>Focus Duration</span>
-                                    <span className="text-indigo-500">25 min</span>
+                        <div className="space-y-8">
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Focus Duration</span>
+                                    <span className="text-indigo-500 font-black italic">{focusMinutes} <span className="text-[8px]">min</span></span>
                                 </div>
-                                <div className="h-2 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden">
-                                    <div className="w-[83%] h-full bg-indigo-600 shadow-lg shadow-indigo-600/20"></div>
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="60" 
+                                    value={focusMinutes} 
+                                    onChange={(e) => setFocusMinutes(parseInt(e.target.value))}
+                                    className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                                />
+                            </div>
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500">Break Duration</span>
+                                    <span className="text-emerald-500 font-black italic">{breakMinutes} <span className="text-[8px]">min</span></span>
+                                </div>
+                                <input 
+                                    type="range" 
+                                    min="1" 
+                                    max="30" 
+                                    value={breakMinutes} 
+                                    onChange={(e) => setBreakMinutes(parseInt(e.target.value))}
+                                    className="w-full h-1.5 bg-slate-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                                />
+                            </div>
+                            
+                            <div className="pt-2">
+                                <div className="p-4 bg-indigo-500/5 rounded-2xl border border-indigo-500/10">
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 leading-relaxed text-center">
+                                        Changes are applied <span className="text-indigo-500">instantly</span> to the next session
+                                    </p>
                                 </div>
                             </div>
-                            <div className="space-y-3">
-                                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-slate-500">
-                                    <span>Relax Break</span>
-                                    <span className="text-emerald-500">5 min</span>
-                                </div>
-                                <div className="h-2 bg-slate-100 dark:bg-slate-900 rounded-full overflow-hidden">
-                                    <div className="w-[17%] h-full bg-emerald-500 shadow-lg shadow-emerald-500/20"></div>
-                                </div>
-                            </div>
-                            <button className="w-full mt-4 h-14 rounded-2xl border-2 border-indigo-500/10 text-slate-400 font-black text-xs uppercase tracking-widest hover:bg-slate-50 dark:hover:bg-slate-900/50 hover:text-indigo-500 hover:border-indigo-500/30 transition-all active:scale-95 flex items-center justify-center gap-2">
-                                <Settings2 className="w-4 h-4" /> Edit Preferences
-                            </button>
                         </div>
                     </Card>
                 </div>
