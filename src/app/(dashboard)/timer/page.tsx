@@ -15,11 +15,22 @@ export default function TimerPage() {
         efficiency: 92
     })
     const [isLoading, setIsLoading] = useState(true)
+    const [subjects, setSubjects] = useState<any[]>([])
+    const [selectedSubjectId, setSelectedSubjectId] = useState<string>('')
 
     useEffect(() => {
         fetchRecentSessions()
         fetchStats()
+        fetchSubjects()
     }, [])
+
+    const fetchSubjects = async () => {
+        try {
+            const res = await fetch('/api/subjects')
+            const data = await res.json()
+            if (data.success) setSubjects(data.data)
+        } catch (e) { }
+    }
 
     const fetchRecentSessions = async () => {
         try {
@@ -53,7 +64,8 @@ export default function TimerPage() {
                 body: JSON.stringify({
                     duration: session.duration,
                     type: 'FOCUS',
-                    status: 'COMPLETED'
+                    status: 'COMPLETED',
+                    subjectId: selectedSubjectId || undefined
                 })
             })
 
@@ -88,6 +100,21 @@ export default function TimerPage() {
                 <div className="lg:col-span-2 space-y-8">
                     <div className="bg-white dark:bg-slate-900/40 border-2 border-slate-100 dark:border-slate-800 rounded-[3.5rem] p-12 lg:p-20 shadow-2xl shadow-indigo-500/5 flex flex-col items-center relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-3xl -mr-20 -mt-20 group-hover:scale-110 transition-transform"></div>
+                        
+                        <div className="mb-10 w-full max-w-xs relative z-10">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4 mb-2 block">Focus Subject</label>
+                            <select
+                                value={selectedSubjectId}
+                                onChange={(e) => setSelectedSubjectId(e.target.value)}
+                                className="w-full bg-white dark:bg-slate-950 border-2 border-slate-100 dark:border-slate-800 rounded-2xl py-3 px-5 text-sm font-bold focus:border-indigo-500 transition-all outline-none appearance-none cursor-pointer"
+                            >
+                                <option value="">General Study</option>
+                                {subjects.map(s => (
+                                    <option key={s.id} value={s.id}>{s.name}</option>
+                                ))}
+                            </select>
+                        </div>
+
                         <PomodoroTimer 
                             onComplete={handleComplete} 
                             workDuration={focusMinutes}

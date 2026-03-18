@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
             }
         })
 
-        // Update user streak if this is a completed session
+        // Update user streak and goals if this is a completed session
         if (status === 'COMPLETED') {
             await prisma.streak.upsert({
                 where: { userId: session.user.id },
@@ -77,6 +77,26 @@ export async function POST(request: NextRequest) {
                     lastStudyDate: new Date(),
                 }
             })
+
+            // Update Weekly Goal
+            const now = new Date()
+            const activeGoal = await prisma.weeklyGoal.findFirst({
+                where: {
+                    userId: session.user.id,
+                    subjectId: subjectId || null,
+                    weekStartDate: { lte: now },
+                    weekEndDate: { gte: now }
+                }
+            })
+
+            if (activeGoal) {
+                await prisma.weeklyGoal.update({
+                    where: { id: activeGoal.id },
+                    data: {
+                        actualMinutes: { increment: duration }
+                    }
+                })
+            }
         }
 
         return successResponse(newSession, 'Study session recorded successfully', 201)
