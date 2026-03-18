@@ -28,10 +28,39 @@ export async function GET(request: NextRequest) {
             _sum: { actualDuration: true }
         })
 
+        // Aggregate by time of day
+        const sessions = await prisma.studySession.findMany({
+            where: {
+                userId: session.user.id,
+                isCompleted: true
+            },
+            select: {
+                startTime: true,
+                actualDuration: true
+            }
+        })
+
+        const timeOfDay = {
+            morning: 0,   // 6-12
+            afternoon: 0, // 12-17
+            evening: 0,   // 17-21
+            night: 0      // 21-6
+        }
+
+        sessions.forEach(s => {
+            const hour = new Date(s.startTime).getHours()
+            const duration = s.actualDuration || 0
+            if (hour >= 6 && hour < 12) timeOfDay.morning += duration
+            else if (hour >= 12 && hour < 17) timeOfDay.afternoon += duration
+            else if (hour >= 17 && hour < 21) timeOfDay.evening += duration
+            else timeOfDay.night += duration
+        })
+
         return successResponse({
             totalMinutes: totalTime._sum.actualDuration || 0,
             sessionCount,
-            subjectsBreakdown
+            subjectsBreakdown,
+            timeOfDay
         })
     } catch (error) {
         console.error('Analytics error:', error)

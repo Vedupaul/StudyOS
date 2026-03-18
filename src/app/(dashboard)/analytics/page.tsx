@@ -35,6 +35,21 @@ export default function AnalyticsPage() {
         { label: 'Active Sessions', value: stats ? `${stats.sessionCount}` : '0', trend: 'Stable', up: true, icon: LayoutGrid, color: 'text-orange-500' },
     ]
 
+    const timeOfDayData = stats?.timeOfDay || { morning: 0, afternoon: 0, evening: 0, night: 0 }
+    const totalMinutes = stats?.totalMinutes || 1 // Avoid division by zero
+    
+    const productiveWindows = [
+        { time: 'Morning', val: Math.round((timeOfDayData.morning / totalMinutes) * 100), color: 'bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' },
+        { time: 'Afternoon', val: Math.round((timeOfDayData.afternoon / totalMinutes) * 100), color: 'bg-indigo-400 opacity-60' },
+        { time: 'Evening', val: Math.round((timeOfDayData.evening / totalMinutes) * 100), color: 'bg-indigo-600' },
+        { time: 'Night', val: Math.round((timeOfDayData.night / totalMinutes) * 100), color: 'bg-slate-800 dark:bg-slate-300' },
+    ]
+
+    const peakWindow = productiveWindows.reduce((prev, current) => (prev.val > current.val) ? prev : current)
+    const insightText = stats?.totalMinutes > 0 
+        ? `Your concentration peaks during ${peakWindow.time.toLowerCase()} blocks. Consider moving high-difficulty subjects during these times for maximum efficiency.`
+        : "Start your first focus session to unlock personalized study insights and productivity trends."
+
     return (
         <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -110,16 +125,11 @@ export default function AnalyticsPage() {
                         <div className="absolute -left-10 -top-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
                         <h3 className="text-xl font-black italic tracking-tighter uppercase mb-8 leading-none">Productive<br /><span className="text-indigo-500">Windows</span></h3>
                         <div className="space-y-8">
-                            {[
-                                { time: 'Morning', val: 85, color: 'bg-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)]' },
-                                { time: 'Afternoon', val: 45, color: 'bg-indigo-400 opacity-60' },
-                                { time: 'Evening', val: 65, color: 'bg-indigo-600' },
-                                { time: 'Night', val: 25, color: 'bg-slate-800 dark:bg-slate-300' },
-                            ].map((item, i) => (
+                            {productiveWindows.map((item, i) => (
                                 <div key={i} className="space-y-3 group">
                                     <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-slate-500 group-hover:text-indigo-500 transition-colors">
                                         <span>{item.time}</span>
-                                        <span>{item.val}% Consistency</span>
+                                        <span>{item.val}% Activity</span>
                                     </div>
                                     <div className="w-full bg-slate-100 dark:bg-slate-900 h-2.5 rounded-full overflow-hidden">
                                         <div className={`${item.color} h-full transition-all duration-1000 group-hover:scale-y-125`} style={{ width: `${item.val}%` }} />
@@ -135,7 +145,7 @@ export default function AnalyticsPage() {
                             <BookOpen className="w-10 h-10 mb-6 drop-shadow-lg" />
                             <h3 className="text-2xl font-black italic tracking-tighter uppercase mb-3 leading-tight">Insight of <br />the Week</h3>
                             <p className="text-sm font-medium leading-relaxed italic opacity-90 border-l-2 border-white/20 pl-4 py-2">
-                                "Your concentration peaks during early morning blocks. Consider moving high-difficulty subjects like Logic or Maths before 10:00 AM."
+                                "{insightText}"
                             </p>
                         </div>
                     </Card>
