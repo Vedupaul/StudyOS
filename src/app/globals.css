@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Exo 2 — improve number readability globally */
+* {
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
