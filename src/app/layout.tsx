@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Exo_2 } from 'next/font/google'
 import './globals.css'
 import { Providers } from '@/components/providers'
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Exo_2({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700', '800', '900'] })
 
 export const metadata: Metadata = {
     title: 'StudyOS - Study & Focus Management',
@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className={inter.className}>
+            <body className={font.className}>
                 <Providers>{children}</Providers>
             </body>
         </html>
