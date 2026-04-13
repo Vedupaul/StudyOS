@@ -101,7 +101,7 @@ export default function RegisterPage() {
                                 disabled={isLoading}
                             />
                             <p className="text-sm text-muted-foreground">
-                                Must be at least 8 characters with uppercase, lowercase, and numbers
+                                Must be at least 8 characters with , lowercase, and numbers
                             </p>
                         </div>
                         <Button type="submit" className="w-full" disabled={isLoading}>

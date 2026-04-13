@@ -110,11 +110,11 @@ export function PomodoroTimer({
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-2">
                         {mode === 'work' ? <Brain className="w-5 h-5 text-indigo-500" /> : <Coffee className="w-5 h-5 text-emerald-500" />}
-                        <span className="text-sm font-bold uppercase tracking-widest text-slate-500">
+                        <span className="text-sm font-bold tracking-widest text-slate-500">
                             {mode === 'work' ? 'Focus Session' : 'Short Break'}
                         </span>
                     </div>
-                    <span className="text-7xl font-black tracking-tighter tabular-nums text-slate-900 dark:text-white">
+                    <span className="text-7xl font-semibold tracking-tighter tabular-nums text-slate-900 dark:text-white">
                         {formatTime(timeLeft)}
                     </span>
                 </div>
