@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts'
 import { BarChart3, TrendingUp, Calendar, Clock, BookOpen, ArrowUpRight, ArrowDownRight, LayoutGrid } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -54,7 +55,7 @@ export default function AnalyticsPage() {
         <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic leading-none">
+                    <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white leading-none">
                         Performance <span className="text-indigo-500">Analytics</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg font-medium">
@@ -62,9 +63,9 @@ export default function AnalyticsPage() {
                     </p>
                 </div>
                 <div className="flex gap-2 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800">
-                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs uppercase tracking-tighter">7 Days</Button>
-                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs uppercase tracking-tighter bg-white dark:bg-slate-800 shadow-sm text-indigo-500">30 Days</Button>
-                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs uppercase tracking-tighter">Custom</Button>
+                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs tracking-tighter">7 Days</Button>
+                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs tracking-tighter bg-white dark:bg-slate-800 shadow-sm text-indigo-500">30 Days</Button>
+                    <Button variant="ghost" size="sm" className="rounded-xl px-4 font-bold text-xs tracking-tighter">Custom</Button>
                 </div>
             </div>
 
@@ -77,13 +78,13 @@ export default function AnalyticsPage() {
                                 <div className={`p-3 rounded-2xl bg-slate-50 dark:bg-slate-900 group-hover:bg-indigo-600 group-hover:text-white transition-all shadow-md`}>
                                     <item.icon className="w-5 h-5" />
                                 </div>
-                                <span className={`text-[10px] font-black italic flex items-center px-2 py-1 rounded-lg ${item.up ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
+                                <span className={`text-[10px] font-semibold flex items-center px-2 py-1 rounded-lg ${item.up ? 'bg-emerald-500/10 text-emerald-500' : 'bg-rose-500/10 text-rose-500'}`}>
                                     {item.up ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
                                     {item.trend}
                                 </span>
                             </div>
-                            <p className="text-3xl font-black italic tracking-tighter text-slate-900 dark:text-white uppercase leading-none">{item.value}</p>
-                            <p className="text-[10px] font-black text-slate-400 mt-4 tracking-widest uppercase">{item.label}</p>
+                            <p className="text-3xl font-semibold tracking-tighter text-slate-900 dark:text-white leading-none">{item.value}</p>
+                            <p className="text-[10px] font-semibold text-slate-400 mt-4 tracking-widest">{item.label}</p>
                         </div>
                         <div className="absolute right-0 bottom-0 w-32 h-32 bg-indigo-500/5 -mr-12 -mb-12 rounded-full z-0 group-hover:scale-125 transition-transform duration-1000 blur-2xl"></div>
                     </Card>
@@ -96,16 +97,44 @@ export default function AnalyticsPage() {
 
                     {isLoading ? (
                         <div className="animate-spin rounded-full h-12 w-12 border-4 border-indigo-500/20 border-t-indigo-500"></div>
+                    ) : stats?.sessionCount > 0 ? (
+                        <div className="w-full h-full flex flex-col justify-between">
+                            <div className="text-left mb-6">
+                                <h3 className="text-3xl font-semibold tracking-tighter leading-none">Activity <span className="text-indigo-500">Visualizer</span></h3>
+                                <p className="text-slate-500 mt-2 text-sm font-medium">Your absolute focus time over the last 7 days.</p>
+                            </div>
+                            <div className="flex-1 w-full min-h-0">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={stats?.dailyActivity || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                        <defs>
+                                            <linearGradient id="colorFocus" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4}/>
+                                                <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" strokeOpacity={0.5} />
+                                        <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, className: 'text-slate-400 font-semibold' }} dy={10} />
+                                        <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, className: 'text-slate-400 font-semibold' }} />
+                                        <Tooltip 
+                                            contentStyle={{ borderRadius: '1rem', border: 'none', boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)', background: 'rgba(255, 255, 255, 0.95)', backdropFilter: 'blur(8px)', fontWeight: 600 }}
+                                            itemStyle={{ color: '#6366f1' }}
+                                            formatter={(value) => [`${value} min`, 'Focus Time']}
+                                        />
+                                        <Area type="monotone" dataKey="focus" stroke="#6366f1" strokeWidth={3} fillOpacity={1} fill="url(#colorFocus)" />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
                     ) : (
                         <>
                             <div className="bg-slate-50 dark:bg-slate-900 p-8 rounded-full mb-8 shadow-inner">
                                 <BarChart3 className="w-20 h-20 text-indigo-500/40" />
                             </div>
-                            <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-4 leading-none">Activity<br /><span className="text-indigo-500">Visualizer</span></h3>
+                            <h3 className="text-3xl font-semibold tracking-tighter mb-4 leading-none">Activity<br /><span className="text-indigo-500">Visualizer</span></h3>
                             <p className="text-slate-500 max-w-sm text-sm font-medium leading-relaxed">
                                 Complete {Math.max(0, 10 - (stats?.sessionCount || 0))} more blocks to unlock your real-time productivity heatmap and subject-wise study analysis.
                             </p>
-                            <div className="mt-12 flex gap-4 text-[10px] font-black uppercase tracking-widest">
+                            <div className="mt-12 flex gap-4 text-[10px] font-semibold tracking-widest">
                                 <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-900 px-4 py-2 rounded-xl transition-all hover:bg-indigo-500 hover:text-white cursor-help">
                                     <div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.5)]" /> Maths
                                 </div>
@@ -123,11 +152,11 @@ export default function AnalyticsPage() {
                 <div className="space-y-6">
                     <Card className="rounded-[3rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 backdrop-blur-xl p-10 shadow-xl overflow-hidden relative">
                         <div className="absolute -left-10 -top-10 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl"></div>
-                        <h3 className="text-xl font-black italic tracking-tighter uppercase mb-8 leading-none">Productive<br /><span className="text-indigo-500">Windows</span></h3>
+                        <h3 className="text-xl font-semibold tracking-tighter mb-8 leading-none">Productive<br /><span className="text-indigo-500">Windows</span></h3>
                         <div className="space-y-8">
                             {productiveWindows.map((item, i) => (
                                 <div key={i} className="space-y-3 group">
-                                    <div className="flex justify-between text-[11px] font-black uppercase tracking-widest text-slate-500 group-hover:text-indigo-500 transition-colors">
+                                    <div className="flex justify-between text-[11px] font-semibold tracking-widest text-slate-500 group-hover:text-indigo-500 transition-colors">
                                         <span>{item.time}</span>
                                         <span>{item.val}% Activity</span>
                                     </div>
@@ -143,8 +172,8 @@ export default function AnalyticsPage() {
                         <div className="absolute right-0 bottom-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform"></div>
                         <div className="relative z-10">
                             <BookOpen className="w-10 h-10 mb-6 drop-shadow-lg" />
-                            <h3 className="text-2xl font-black italic tracking-tighter uppercase mb-3 leading-tight">Insight of <br />the Week</h3>
-                            <p className="text-sm font-medium leading-relaxed italic opacity-90 border-l-2 border-white/20 pl-4 py-2">
+                            <h3 className="text-2xl font-semibold tracking-tighter mb-3 leading-tight">Insight of <br />the Week</h3>
+                            <p className="text-sm font-medium leading-relaxed opacity-90 border-l-2 border-white/20 pl-4 py-2">
                                 "{insightText}"
                             </p>
                         </div>

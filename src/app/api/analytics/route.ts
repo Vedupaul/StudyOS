@@ -47,6 +47,16 @@ export async function GET(request: NextRequest) {
             night: 0      // 21-6
         }
 
+        const dailyActivity = Array.from({ length: 7 }).map((_, i) => {
+            const d = new Date()
+            d.setDate(d.getDate() - (6 - i))
+            return {
+                name: d.toLocaleDateString('en-US', { weekday: 'short' }),
+                focus: 0,
+                dateStr: d.toDateString()
+            }
+        })
+
         sessions.forEach(s => {
             const hour = new Date(s.startTime).getHours()
             const duration = s.actualDuration || 0
@@ -54,13 +64,21 @@ export async function GET(request: NextRequest) {
             else if (hour >= 12 && hour < 17) timeOfDay.afternoon += duration
             else if (hour >= 17 && hour < 21) timeOfDay.evening += duration
             else timeOfDay.night += duration
+
+            // Compute daily activity for last 7 days
+            const sDate = new Date(s.startTime).toDateString()
+            const dayObj = dailyActivity.find(d => d.dateStr === sDate)
+            if (dayObj) {
+                dayObj.focus += duration
+            }
         })
 
         return successResponse({
             totalMinutes: totalTime._sum.actualDuration || 0,
             sessionCount,
             subjectsBreakdown,
-            timeOfDay
+            timeOfDay,
+            dailyActivity
         })
     } catch (error) {
         console.error('Analytics error:', error)
