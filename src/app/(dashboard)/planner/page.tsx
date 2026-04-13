@@ -73,7 +73,7 @@ function SortableTask({ task, toggleStatus, deleteTask }: { task: any, toggleSta
                 <p className={task.status === 'completed' ? "text-lg font-bold text-slate-400 line-through" : "text-lg font-bold text-slate-900 dark:text-white"}>
                     {task.taskName}
                 </p>
-                <div className="flex items-center gap-3 mt-1 text-xs font-semibold text-slate-400 uppercase tracking-widest">
+                <div className="flex items-center gap-3 mt-1 text-xs font-semibold text-slate-400 tracking-widest">
                     <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {task.plannedDuration} min</span>
                     {task.subject && <span className="flex items-center gap-1"><div className="w-2 h-2 rounded-full" style={{ backgroundColor: task.subject.color }} /> {task.subject.name}</span>}
                 </div>
@@ -242,7 +242,7 @@ export default function PlannerPage() {
         <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic">
+                    <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
                         Daily <span className="text-indigo-500">Planner</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg font-medium">
@@ -272,8 +272,8 @@ export default function PlannerPage() {
                     <Card className="rounded-[2.5rem] border-slate-200 dark:border-slate-800 shadow-2xl shadow-indigo-500/5 bg-white dark:bg-slate-950/50 backdrop-blur-xl overflow-hidden min-h-[500px] flex flex-col">
                         <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-900 p-8 py-6">
                             <div>
-                                <CardTitle className="text-xl font-black uppercase italic tracking-tight">Today's Schedule</CardTitle>
-                                <CardDescription className="text-xs font-bold uppercase tracking-widest text-slate-500 mt-1">
+                                <CardTitle className="text-xl font-semibold tracking-tight">Today's Schedule</CardTitle>
+                                <CardDescription className="text-xs font-bold tracking-widest text-slate-500 mt-1">
                                     {tasks.length} {tasks.length === 1 ? 'Task' : 'Tasks'} Planned
                                 </CardDescription>
                             </div>
@@ -291,7 +291,7 @@ export default function PlannerPage() {
                                     <div className="w-20 h-20 bg-slate-100 dark:bg-slate-900 rounded-full flex items-center justify-center mb-6">
                                         <CalendarIcon className="w-10 h-10 text-slate-300" />
                                     </div>
-                                    <p className="text-slate-500 font-bold uppercase tracking-widest text-sm">No tasks planned yet</p>
+                                    <p className="text-slate-500 font-bold tracking-widest text-sm">No tasks planned yet</p>
                                     <Button variant="link" onClick={() => setShowModal(true)} className="text-indigo-500 mt-2 font-bold">Add your first study block</Button>
                                 </div>
                             ) : (
@@ -325,22 +325,22 @@ export default function PlannerPage() {
                     <Card className="rounded-[2.5rem] bg-indigo-600 text-white border-none p-10 overflow-hidden relative group shadow-2xl shadow-indigo-600/30">
                         <div className="absolute right-0 top-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="relative z-10">
-                            <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-4 leading-none">Focus<br />Activity</h3>
-                            <div className="text-6xl font-black tabular-nums tracking-tighter mb-4">{completionRate}%</div>
+                            <h3 className="text-3xl font-semibold tracking-tighter mb-4 leading-none">Focus<br />Activity</h3>
+                            <div className="text-6xl font-semibold tabular-nums tracking-tighter mb-4">{completionRate}%</div>
                             <div className="w-full bg-white/20 h-4 rounded-full overflow-hidden mb-6">
                                 <div
                                     className="bg-white h-full transition-all duration-1000 shadow-[0_0_20px_rgba(255,255,255,0.5)]"
                                     style={{ width: `${completionRate}%` }}
                                 />
                             </div>
-                            <p className="text-sm font-bold opacity-80 uppercase tracking-widest">
+                            <p className="text-sm font-bold opacity-80 tracking-widest">
                                 {tasks.filter(t => t.status === 'completed').length} / {tasks.length} Tasks COMPLETED
                             </p>
                         </div>
                     </Card>
 
                     <Card className="rounded-[2.5rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 backdrop-blur-xl p-8 shadow-xl">
-                        <h3 className="text-lg font-black uppercase italic tracking-tight mb-6 flex items-center gap-3">
+                        <h3 className="text-lg font-semibold tracking-tight mb-6 flex items-center gap-3">
                             <PlusCircle className="w-5 h-5 text-indigo-500" /> Quick Entry
                         </h3>
                         <div className="space-y-4">
@@ -352,7 +352,7 @@ export default function PlannerPage() {
                                 className="w-full bg-slate-100 dark:bg-slate-900/80 border-2 border-transparent focus:border-indigo-500/30 rounded-2xl py-4 px-5 text-sm font-bold focus:ring-4 focus:ring-indigo-500/5 transition-all outline-none"
                                 onKeyDown={(e) => { if (e.key === 'Enter') handleAddTask() }}
                             />
-                            <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest text-center px-4 leading-relaxed">
+                            <p className="text-[10px] text-slate-400 font-semibold tracking-widest text-center px-4 leading-relaxed">
                                 Press <span className="text-indigo-500">Enter</span> to instantly append to your schedule
                             </p>
                         </div>
@@ -365,7 +365,7 @@ export default function PlannerPage() {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 backdrop-blur-md bg-slate-950/40 animate-in fade-in duration-300">
                     <Card className="w-full max-w-lg rounded-[3rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-10 shadow-3xl animate-in zoom-in-95 duration-300">
                         <div className="flex justify-between items-start mb-8">
-                            <h2 className="text-3xl font-black italic tracking-tighter uppercase">Plan <span className="text-indigo-500">Task</span></h2>
+                            <h2 className="text-3xl font-semibold tracking-tighter">Plan <span className="text-indigo-500">Task</span></h2>
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-indigo-500 transition-all hover:rotate-90"
@@ -376,7 +376,7 @@ export default function PlannerPage() {
 
                         <form onSubmit={handleAddTask} className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Task Description</label>
+                                <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Task Description</label>
                                 <input
                                     autoFocus
                                     required
@@ -389,7 +389,7 @@ export default function PlannerPage() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Duration (Min)</label>
+                                    <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Duration (Min)</label>
                                     <input
                                         type="number"
                                         value={newTask.duration}
@@ -398,7 +398,7 @@ export default function PlannerPage() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Subject</label>
+                                    <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Subject</label>
                                     <select
                                         value={newTask.subjectId}
                                         onChange={e => setNewTask({ ...newTask, subjectId: e.target.value })}
@@ -413,7 +413,7 @@ export default function PlannerPage() {
                             </div>
 
                             <div className="pt-4">
-                                <Button type="submit" className="w-full h-16 rounded-3xl bg-indigo-600 hover:bg-indigo-500 text-white font-black italic uppercase tracking-tight text-lg shadow-xl shadow-indigo-600/20 active:scale-95 transition-all">
+                                <Button type="submit" className="w-full h-16 rounded-3xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold tracking-tight text-lg shadow-xl shadow-indigo-600/20 active:scale-95 transition-all">
                                     Confirm & Schedule
                                 </Button>
                             </div>

@@ -46,7 +46,7 @@ export default function HistoryPage() {
         <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic leading-none">
+                    <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white leading-none">
                         Study <span className="text-indigo-500">History</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-3 text-lg font-medium">
@@ -57,7 +57,7 @@ export default function HistoryPage() {
                     <Button
                         onClick={() => toast.info('Export functionality coming soon!')}
                         variant="outline"
-                        className="rounded-2xl gap-2 font-black text-xs uppercase tracking-widest border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 h-12 px-6 shadow-lg shadow-indigo-500/5 active:scale-95 transition-all"
+                        className="rounded-2xl gap-2 font-semibold text-xs tracking-widest border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 h-12 px-6 shadow-lg shadow-indigo-500/5 active:scale-95 transition-all"
                     >
                         <Download className="w-4 h-4" /> Export CSV
                     </Button>
@@ -88,7 +88,7 @@ export default function HistoryPage() {
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
-                            className="h-14 px-6 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border-2 border-slate-100 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest outline-none focus:border-indigo-500/30 transition-all cursor-pointer appearance-none"
+                            className="h-14 px-6 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border-2 border-slate-100 dark:border-slate-800 text-[10px] font-semibold tracking-widest outline-none focus:border-indigo-500/30 transition-all cursor-pointer appearance-none"
                         >
                             <option value="ALL">All Status</option>
                             <option value="COMPLETED">Completed</option>
@@ -104,11 +104,11 @@ export default function HistoryPage() {
                         <table className="w-full text-left">
                             <thead>
                                 <tr className="border-b border-slate-50 dark:border-slate-900 bg-slate-50/30 dark:bg-slate-900/30">
-                                    <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">Timeline</th>
-                                    <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">Academic Focus</th>
-                                    <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">Energy Spent</th>
-                                    <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">Efficiency</th>
-                                    <th className="p-8 text-[10px] font-black uppercase tracking-widest text-slate-500 italic">Ref</th>
+                                    <th className="p-8 text-[10px] font-semibold tracking-widest text-slate-500">Timeline</th>
+                                    <th className="p-8 text-[10px] font-semibold tracking-widest text-slate-500">Academic Focus</th>
+                                    <th className="p-8 text-[10px] font-semibold tracking-widest text-slate-500">Energy Spent</th>
+                                    <th className="p-8 text-[10px] font-semibold tracking-widest text-slate-500">Efficiency</th>
+                                    <th className="p-8 text-[10px] font-semibold tracking-widest text-slate-500">Ref</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50 dark:divide-slate-900 font-medium">
@@ -123,7 +123,7 @@ export default function HistoryPage() {
                                         <td colSpan={5} className="p-32 text-center h-full">
                                             <div className="flex flex-col items-center gap-4 opacity-40">
                                                 <HistoryIcon className="w-16 h-16 text-slate-300" />
-                                                <p className="font-black uppercase tracking-widest text-sm text-slate-400">Inventory Empty</p>
+                                                <p className="font-semibold tracking-widest text-sm text-slate-400">Inventory Empty</p>
                                             </div>
                                         </td>
                                     </tr>
@@ -131,14 +131,14 @@ export default function HistoryPage() {
                                     filteredSessions.map((session) => (
                                         <tr key={session.id} className="group hover:bg-slate-50/50 dark:hover:bg-slate-900/40 transition-all border-l-4 border-l-transparent hover:border-l-indigo-500">
                                             <td className="p-8">
-                                                <p className="text-base font-black text-slate-900 dark:text-white uppercase italic tracking-tighter leading-none">{format(new Date(session.startTime || session.createdAt), 'MMM dd, yyyy')}</p>
-                                                <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1.5">{format(new Date(session.startTime || session.createdAt), 'HH:mm a')}</p>
+                                                <p className="text-base font-semibold text-slate-900 dark:text-white tracking-tighter leading-none">{format(new Date(session.startTime || session.createdAt), 'MMM dd, yyyy')}</p>
+                                                <p className="text-[10px] text-slate-400 font-semibold tracking-widest mt-1.5">{format(new Date(session.startTime || session.createdAt), 'HH:mm a')}</p>
                                             </td>
                                             <td className="p-8">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-3 h-3 rounded-full shadow-[0_0_10px_rgba(var(--color),0.5)]" style={{ backgroundColor: session.subject?.color || '#cbd5e1' }} />
                                                     <div>
-                                                        <span className="text-base font-black uppercase tracking-tighter italic">{session.subject?.name || 'Self Study'}</span>
+                                                        <span className="text-base font-semibold tracking-tighter">{session.subject?.name || 'Self Study'}</span>
                                                         {session.notes && <p className="text-[10px] text-slate-500 font-medium mt-1 truncate max-w-[200px]">{session.notes}</p>}
                                                     </div>
                                                 </div>
@@ -146,12 +146,11 @@ export default function HistoryPage() {
                                             <td className="p-8">
                                                 <div className="flex items-center gap-3">
                                                     <Clock className="w-4 h-4 text-indigo-500 opacity-50" />
-                                                    <span className="text-lg tabular-nums font-black italic tracking-tighter">{session.duration}<span className="text-xs uppercase text-slate-400 not-italic ml-1">min</span></span>
+                                                    <span className="text-lg tabular-nums font-semibold tracking-tighter">{session.duration}<span className="text-xs text-slate-400 not- ml-1">min</span></span>
                                                 </div>
                                             </td>
                                             <td className="p-8">
-                                                <span className={`text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-xl ${session.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-500/10 text-slate-500'
-                                                    }`}>
+                                                <span className={`text-[10px] font-semibold tracking-widest px-4 py-1.5 rounded-xl ${session.status === 'COMPLETED' ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-500/10 text-slate-500' }`}>
                                                     {session.status}
                                                 </span>
                                             </td>

@@ -92,7 +92,7 @@ export default function GoalsPage() {
         <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                    <h1 className="text-4xl font-black tracking-tight text-slate-900 dark:text-white uppercase italic">
+                    <h1 className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white">
                         Study <span className="text-indigo-500">Goals</span>
                     </h1>
                     <p className="text-slate-500 dark:text-slate-400 mt-2 text-lg font-medium">
@@ -102,13 +102,13 @@ export default function GoalsPage() {
                 <div className="flex gap-2 bg-slate-100/50 dark:bg-slate-900/50 backdrop-blur-sm p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800">
                     <button
                         onClick={() => setActiveTab('weekly')}
-                        className={`px-8 py-2.5 rounded-xl text-sm font-black transition-all uppercase tracking-tighter ${activeTab === 'weekly' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-indigo-500'}`}
+                        className={`px-8 py-2.5 rounded-xl text-sm font-semibold transition-all tracking-tighter ${activeTab === 'weekly' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-indigo-500'}`}
                     >
                         Weekly
                     </button>
                     <button
                         onClick={() => setActiveTab('monthly')}
-                        className={`px-8 py-2.5 rounded-xl text-sm font-black transition-all uppercase tracking-tighter ${activeTab === 'monthly' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-indigo-500'}`}
+                        className={`px-8 py-2.5 rounded-xl text-sm font-semibold transition-all tracking-tighter ${activeTab === 'monthly' ? 'bg-indigo-600 text-white shadow-xl shadow-indigo-600/20' : 'text-slate-500 hover:text-indigo-500'}`}
                     >
                         Monthly
                     </button>
@@ -133,20 +133,18 @@ export default function GoalsPage() {
                                                 <div className="bg-indigo-500/10 p-3 rounded-2xl">
                                                     <BookOpen className="w-6 h-6 text-indigo-500" />
                                                 </div>
-                                                <span className={`text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl ${progress >= 100 ? 'bg-emerald-500/10 text-emerald-500' :
-                                                        progress > 50 ? 'bg-blue-500/10 text-blue-500' : 'bg-orange-500/10 text-orange-500'
-                                                    }`}>
+                                                <span className={`text-[10px] font-semibold tracking-widest px-3 py-1.5 rounded-xl ${progress >= 100 ? 'bg-emerald-500/10 text-emerald-500' : progress > 50 ? 'bg-blue-500/10 text-blue-500' : 'bg-orange-500/10 text-orange-500' }`}>
                                                     {progress >= 100 ? 'COMPLETED' : progress > 0 ? 'IN PROGRESS' : 'NOT STARTED'}
                                                 </span>
                                             </div>
-                                            <CardTitle className="mt-6 text-2xl font-black italic tracking-tighter uppercase">{subject?.name || 'General Study'}</CardTitle>
-                                            <CardDescription className="text-xs font-bold uppercase tracking-widest text-slate-500">Target: {goal.targetMinutes / 60} hours per week</CardDescription>
+                                            <CardTitle className="mt-6 text-2xl font-semibold tracking-tighter">{subject?.name || 'General Study'}</CardTitle>
+                                            <CardDescription className="text-xs font-bold tracking-widest text-slate-500">Target: {goal.targetMinutes / 60} hours per week</CardDescription>
                                         </CardHeader>
                                         <CardContent className="pt-4 p-8">
                                             <div className="space-y-4">
                                                 <div className="flex justify-between items-end mb-1">
-                                                    <span className="text-4xl font-black italic tracking-tighter">{progress}%</span>
-                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none">Actual: {Math.round((goal.actualMinutes || 0) / 60)}h</span>
+                                                    <span className="text-4xl font-semibold tracking-tighter">{progress}%</span>
+                                                    <span className="text-[10px] font-semibold text-slate-400 tracking-widest leading-none">Actual: {Math.round((goal.actualMinutes || 0) / 60)}h</span>
                                                 </div>
                                                 <div className="w-full bg-slate-100 dark:bg-slate-900 h-3 rounded-full overflow-hidden">
                                                     <div
@@ -167,8 +165,8 @@ export default function GoalsPage() {
                                     <Plus className="w-8 h-8 text-slate-300 group-hover:text-white" />
                                 </div>
                                 <div className="text-center">
-                                    <p className="font-black italic tracking-tighter text-2xl text-slate-400 group-hover:text-indigo-500 uppercase">Create New Goal</p>
-                                    <p className="text-[10px] text-slate-400 uppercase font-black tracking-widest mt-1">Challenge yourself today</p>
+                                    <p className="font-semibold tracking-tighter text-2xl text-slate-400 group-hover:text-indigo-500">Create New Goal</p>
+                                    <p className="text-[10px] text-slate-400 font-semibold tracking-widest mt-1">Challenge yourself today</p>
                                 </div>
                             </button>
                         </div>
@@ -178,7 +176,7 @@ export default function GoalsPage() {
                 <div className="space-y-6">
                     <Card className="rounded-[3rem] bg-slate-900 text-white p-10 relative overflow-hidden shadow-2xl">
                         <Trophy className="absolute -right-8 -bottom-8 w-48 h-48 text-indigo-500/10 rotate-12" />
-                        <h3 className="text-3xl font-black italic tracking-tighter uppercase mb-2 leading-none">Milestones</h3>
+                        <h3 className="text-3xl font-semibold tracking-tighter mb-2 leading-none">Milestones</h3>
                         <p className="text-slate-400 text-sm mb-8 font-medium">Badges you've earned while crushing goals.</p>
                         <div className="space-y-5">
                             <div className="flex items-center gap-5 bg-white/5 p-5 rounded-[2rem] border border-white/5 backdrop-blur-sm">
@@ -186,8 +184,8 @@ export default function GoalsPage() {
                                     <Trophy className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-lg font-bold italic tracking-tighter uppercase leading-none">Consistency King</p>
-                                    <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest mt-1">Study 7 days in a row</p>
+                                    <p className="text-lg font-bold tracking-tighter leading-none">Consistency King</p>
+                                    <p className="text-[10px] text-slate-500 font-semibold tracking-widest mt-1">Study 7 days in a row</p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-5 bg-white/5 p-5 rounded-[2rem] border border-white/5 opacity-40 grayscale translate-x-2">
@@ -195,25 +193,25 @@ export default function GoalsPage() {
                                     <TargetCircle className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-lg font-bold italic tracking-tighter uppercase leading-none text-slate-400">Exam Crusher</p>
-                                    <p className="text-[10px] text-slate-600 font-black uppercase tracking-widest mt-1">Reach monthly goal</p>
+                                    <p className="text-lg font-bold tracking-tighter leading-none text-slate-400">Exam Crusher</p>
+                                    <p className="text-[10px] text-slate-600 font-semibold tracking-widest mt-1">Reach monthly goal</p>
                                 </div>
                             </div>
                         </div>
                     </Card>
 
                     <Card className="rounded-[3rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950/50 backdrop-blur-xl p-10 shadow-xl">
-                        <h3 className="text-lg font-black uppercase italic tracking-tight mb-8 flex items-center gap-3">
+                        <h3 className="text-lg font-semibold tracking-tight mb-8 flex items-center gap-3">
                             <TrendingUp className="w-5 h-5 text-indigo-500" /> Performance
                         </h3>
                         <div className="space-y-8">
                             <div className="flex justify-between items-center group">
-                                <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Weekly Growth</span>
-                                <span className="text-emerald-500 flex items-center text-base font-black italic group-hover:scale-110 transition-transform"><ArrowUpRight className="w-4 h-4 mr-1" /> +12%</span>
+                                <span className="text-sm font-bold text-slate-500 tracking-widest">Weekly Growth</span>
+                                <span className="text-emerald-500 flex items-center text-base font-semibold group-hover:scale-110 transition-transform"><ArrowUpRight className="w-4 h-4 mr-1" /> +12%</span>
                             </div>
                             <div className="flex justify-between items-center group">
-                                <span className="text-sm font-bold text-slate-500 uppercase tracking-widest">Focus Score</span>
-                                <span className="text-emerald-500 flex items-center text-base font-black italic group-hover:scale-110 transition-transform"><ArrowUpRight className="w-4 h-4 mr-1" /> +0.4</span>
+                                <span className="text-sm font-bold text-slate-500 tracking-widest">Focus Score</span>
+                                <span className="text-emerald-500 flex items-center text-base font-semibold group-hover:scale-110 transition-transform"><ArrowUpRight className="w-4 h-4 mr-1" /> +0.4</span>
                             </div>
                         </div>
                     </Card>
@@ -225,7 +223,7 @@ export default function GoalsPage() {
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 backdrop-blur-md bg-slate-950/40 animate-in fade-in duration-300">
                     <Card className="w-full max-w-lg rounded-[3rem] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 p-10 shadow-3xl animate-in zoom-in-95 duration-300">
                         <div className="flex justify-between items-start mb-8">
-                            <h2 className="text-3xl font-black italic tracking-tighter uppercase">Set <span className="text-indigo-500">Goal</span></h2>
+                            <h2 className="text-3xl font-semibold tracking-tighter">Set <span className="text-indigo-500">Goal</span></h2>
                             <button
                                 onClick={() => setShowModal(false)}
                                 className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-900 flex items-center justify-center text-slate-500 hover:text-indigo-500 transition-all hover:rotate-90"
@@ -236,7 +234,7 @@ export default function GoalsPage() {
 
                         <form onSubmit={handleCreateGoal} className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Subject Focus</label>
+                                <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Subject Focus</label>
                                 <select
                                     value={newGoal.subjectId}
                                     onChange={e => setNewGoal({ ...newGoal, subjectId: e.target.value })}
@@ -251,7 +249,7 @@ export default function GoalsPage() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Target (Hours/Week)</label>
+                                    <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Target (Hours/Week)</label>
                                     <input
                                         type="number"
                                         required
@@ -262,7 +260,7 @@ export default function GoalsPage() {
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-4">Start From</label>
+                                    <label className="text-[10px] font-semibold tracking-widest text-slate-500 ml-4">Start From</label>
                                     <input
                                         type="date"
                                         required
@@ -274,7 +272,7 @@ export default function GoalsPage() {
                             </div>
 
                             <div className="pt-4">
-                                <Button type="submit" className="w-full h-16 rounded-3xl bg-indigo-600 hover:bg-indigo-500 text-white font-black italic uppercase tracking-tight text-lg shadow-xl shadow-indigo-600/20 active:scale-95 transition-all">
+                                <Button type="submit" className="w-full h-16 rounded-3xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold tracking-tight text-lg shadow-xl shadow-indigo-600/20 active:scale-95 transition-all">
                                     Create Target
                                 </Button>
                             </div>
