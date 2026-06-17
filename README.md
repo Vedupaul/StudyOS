@@ -118,43 +118,43 @@ Core value proposition:
 ## 📱 Application Screenshots
 
 ### Dashboard - Overview & Quick Stats
-![Dashboard Overview](./public/screenshots/Dashboard.png)
+![Dashboard Overview](Screenshots/Dashboard.png)
 *Welcome screen displaying study statistics, current streak, tasks completed, and total sessions at a glance.*
 
 ### Pomodoro Timer - Focus Session
-![Pomodoro Timer](./public/screenshots/Pomodoro.png)
+![Pomodoro Timer](Screenshots/Pomodoro.png)
 *Real-time timer display with animated progress circle, session controls, and focus/break mode toggle.*
 
 ### Study Heatmap - Visual Progress
-![Study Heatmap](./public/screenshots/Study%20Heatmap.png)
+![Study Heatmap](Screenshots/Study%20Heatmap.png)
 *Monthly heatmap showing study hours per day with color-coded intensity for effective habit tracking.*
 
 ### Daily Planner - Task Management
-![Daily Planner](./public/screenshots/Daily%20Planner.png)
+![Daily Planner](Screenshots/Daily%20Planner.png)
 *Drag-and-drop task management with time estimation, subject categorization, and quick entry feature.*
 
 ### Study Goals - Milestone Tracking
-![Study Goals](./public/screenshots/Study%20Goals.png)
+![Study Goals](Screenshots/Study%20Goals.png)
 *Weekly goal setting interface with progress tracking, badges, and gamified milestone achievements.*
 
 ### Performance Analytics - Detailed Insights
-![Performance Analytics](./public/screenshots/Performance%20Analytics.png)
+![Performance Analytics](Screenshots/Performance%20Analytics.png)
 *Comprehensive analytics dashboard with time tracking, focus scores, and productivity window analysis.*
 
 ### Performance Analytics - Advanced Metrics
-![Performance Analytics 2](./public/screenshots/Performance%20Analytics%202.png)
+![Performance Analytics 2](Screenshots/Performance%20Analytics%202.png)
 *Multi-metric dashboard showing activity visualizer, total time, and session efficiency data.*
 
 ### Session History - Complete Records
-![Session History](./public/screenshots/Session%20History.png)
+![Session History](Screenshots/Session%20History.png)
 *Full study session record with timeline view, academic focus categorization, and CSV export options.*
 
 ### App Settings - User Preferences
-![App Settings](./public/screenshots/App%20Settings.png)
+![App Settings](Screenshots/App%20Settings.png)
 *User profile management, notification preferences, timer configuration, and security settings in one interface.*
 
 ### Theme Selector & System Preferences
-![Theme Selection](./public/screenshots/Theme%20Selection.png)
+![Theme Selection](Screenshots/Theme%20Selection.png)
 *Dark/Light theme toggle with system preference detection for optimized all-day studying experience.*
 
 ---
