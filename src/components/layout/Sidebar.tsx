@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { AppLogo } from '@/components/branding/AppLogo'
 import {
     LayoutDashboard,
     Timer,
@@ -31,9 +32,7 @@ export function Sidebar() {
         <div className="flex flex-col h-full bg-slate-950 text-slate-300 border-r border-slate-800/50 w-64 fixed left-0 top-0 z-50">
             <div className="p-6">
                 <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center">
-                        <Timer className="text-white w-6 h-6" />
-                    </div>
+                    <AppLogo size={44} className="h-11 w-11 rounded-2xl shadow-lg shadow-violet-950/40" />
                     <span className="text-xl font-bold text-white tracking-tight">StudyOS</span>
                 </div>
 

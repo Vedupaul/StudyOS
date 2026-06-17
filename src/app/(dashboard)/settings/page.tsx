@@ -40,7 +40,7 @@ function Modal({ open, onClose, title, children }: { open: boolean, onClose: () 
                 <button onClick={onClose} className="absolute top-6 right-6 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors p-2 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-900">
                     <X className="w-5 h-5" />
                 </button>
-                <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white mb-8">{title}</h2>
+                <h2 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white mb-8">{title}</h2>
                 {children}
             </div>
         </div>

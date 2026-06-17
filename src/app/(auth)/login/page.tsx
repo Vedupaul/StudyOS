@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { LogIn } from 'lucide-react'
+import { AppLogo } from '@/components/branding/AppLogo'
 
 export default function LoginPage() {
     const router = useRouter()
@@ -44,9 +44,7 @@ export default function LoginPage() {
         <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 px-4">
             <Card className="w-full max-w-md">
                 <CardHeader className="space-y-2 text-center">
-                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
-                        <LogIn className="h-8 w-8 text-primary-foreground" />
-                    </div>
+                    <AppLogo size={64} className="mx-auto mb-4 h-16 w-16 rounded-[1.35rem] shadow-xl shadow-violet-500/20" />
                     <CardTitle className="text-3xl">Welcome to StudyOS</CardTitle>
                     <CardDescription>Sign in to your account to continue</CardDescription>
                 </CardHeader>

@@ -114,7 +114,7 @@ export function PomodoroTimer({
                             {mode === 'work' ? 'Focus Session' : 'Short Break'}
                         </span>
                     </div>
-                    <span className="text-7xl font-semibold tracking-tighter tabular-nums text-slate-900 dark:text-white">
+                    <span className="text-5xl font-semibold tracking-tighter tabular-nums text-slate-900 dark:text-white">
                         {formatTime(timeLeft)}
                     </span>
                 </div>

@@ -101,7 +101,54 @@ async function main() {
         })
     }
 
-    console.log('✅ Seeded achievements')
+    // Seed specific user for Vedavrat Paul
+    const email = 'vedavrat.paul@gmail.com'
+    const passwordHash = '$2b$10$YourHashedPasswordHere' // Using a dummy bcrypt hash for 'password123'
+    
+    const user = await prisma.user.upsert({
+        where: { email },
+        update: {},
+        create: {
+            email,
+            passwordHash: '$2b$10$Kq2Y.jJvQpG/7Wv9M0qI.O7aO5Y9O5Y9O5Y9O5Y9O5Y9O5Y9O5Y9O', // hash for 'password123'
+            name: 'Vedavrat Paul',
+            isActive: true,
+        }
+    })
+
+    const subject = await prisma.subject.upsert({
+        where: { userId_name: { userId: user.id, name: 'Advanced AI' } },
+        update: {},
+        create: {
+            userId: user.id,
+            name: 'Advanced AI',
+            color: '#8B5CF6',
+        }
+    })
+
+    // Create 5 study sessions for today
+    const now = new Date()
+    for (let i = 0; i < 5; i++) {
+        const startTime = new Date(now)
+        startTime.setHours(now.getHours() - (i + 1))
+        const endTime = new Date(startTime)
+        endTime.setMinutes(startTime.getMinutes() + 45)
+
+        await prisma.studySession.create({
+            data: {
+                userId: user.id,
+                subjectId: subject.id,
+                sessionType: 'focus',
+                startTime,
+                endTime,
+                actualDuration: 45,
+                focusScore: 5,
+                isCompleted: true,
+            }
+        })
+    }
+
+    console.log('✅ Seeded achievements and user data')
 
     console.log('Database seeded successfully!')
 }

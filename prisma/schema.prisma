@@ -1,6 +1,3 @@
-// This is your Prisma schema file
-// Learn more: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,24 +8,23 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(uuid())
-  email         String    @unique
-  passwordHash  String    @map("password_hash")
-  name          String
-  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-  lastLogin     DateTime? @map("last_login") @db.Timestamptz(6)
-  isActive      Boolean   @default(true) @map("is_active")
-
-  preferences      UserPreferences?
-  subjects         Subject[]
-  studySessions    StudySession[]
+  id               String            @id @default(uuid())
+  email            String            @unique
+  passwordHash     String            @map("password_hash")
+  name             String
+  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt        DateTime          @updatedAt @map("updated_at") @db.Timestamptz(6)
+  lastLogin        DateTime?         @map("last_login") @db.Timestamptz(6)
+  isActive         Boolean           @default(true) @map("is_active")
   dailyPlans       DailyPlan[]
-  weeklyGoals      WeeklyGoal[]
   monthlyGoals     MonthlyGoal[]
-  streak           Streak?
-  userAchievements UserAchievement[]
   notifications    Notification[]
+  streak           Streak?
+  studySessions    StudySession[]
+  subjects         Subject[]
+  userAchievements UserAchievement[]
+  preferences      UserPreferences?
+  weeklyGoals      WeeklyGoal[]
 
   @@map("users")
 }
@@ -46,26 +42,24 @@ model UserPreferences {
   autoStartPomodoros   Boolean  @default(false) @map("auto_start_pomodoros")
   createdAt            DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_preferences")
 }
 
 model Subject {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
-  name        String
-  color       String   @default("#3B82F6")
-  icon        String?
-  description String?
-  isArchived  Boolean  @default(false) @map("is_archived")
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  studySessions StudySession[]
+  id            String         @id @default(uuid())
+  userId        String         @map("user_id")
+  name          String
+  color         String         @default("#3B82F6")
+  icon          String?
+  description   String?
+  isArchived    Boolean        @default(false) @map("is_archived")
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime       @updatedAt @map("updated_at") @db.Timestamptz(6)
   planTasks     PlanTask[]
+  studySessions StudySession[]
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   weeklyGoals   WeeklyGoal[]
 
   @@unique([userId, name])
@@ -89,9 +83,8 @@ model StudySession {
   interruptions   Int       @default(0)
   createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  subject         Subject?  @relation(fields: [subjectId], references: [id])
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, startTime(sort: Desc)])
   @@index([subjectId])
@@ -99,18 +92,17 @@ model StudySession {
 }
 
 model DailyPlan {
-  id                  String   @id @default(uuid())
-  userId              String   @map("user_id")
-  planDate            DateTime @map("plan_date") @db.Date
-  totalPlannedMinutes Int      @default(0) @map("total_planned_minutes")
-  totalActualMinutes  Int      @default(0) @map("total_actual_minutes")
+  id                  String     @id @default(uuid())
+  userId              String     @map("user_id")
+  planDate            DateTime   @map("plan_date") @db.Date
+  totalPlannedMinutes Int        @default(0) @map("total_planned_minutes")
+  totalActualMinutes  Int        @default(0) @map("total_actual_minutes")
   notes               String?
-  isCompleted         Boolean  @default(false) @map("is_completed")
-  createdAt           DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt           DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tasks PlanTask[]
+  isCompleted         Boolean    @default(false) @map("is_completed")
+  createdAt           DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt           DateTime   @updatedAt @map("updated_at") @db.Timestamptz(6)
+  user                User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tasks               PlanTask[]
 
   @@unique([userId, planDate])
   @@index([userId, planDate(sort: Desc)])
@@ -118,21 +110,20 @@ model DailyPlan {
 }
 
 model PlanTask {
-  id              String   @id @default(uuid())
-  dailyPlanId     String   @map("daily_plan_id")
-  subjectId       String?  @map("subject_id")
-  taskName        String   @map("task_name")
+  id              String    @id @default(uuid())
+  dailyPlanId     String    @map("daily_plan_id")
+  subjectId       String?   @map("subject_id")
+  taskName        String    @map("task_name")
   description     String?
-  plannedDuration Int      @map("planned_duration")
-  actualDuration  Int      @default(0) @map("actual_duration")
-  taskOrder       Int      @default(0) @map("task_order")
-  status          String   @default("pending")
-  skipReason      String?  @map("skip_reason")
-  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt       DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  dailyPlan DailyPlan @relation(fields: [dailyPlanId], references: [id], onDelete: Cascade)
-  subject   Subject?  @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  plannedDuration Int       @map("planned_duration")
+  actualDuration  Int       @default(0) @map("actual_duration")
+  taskOrder       Int       @default(0) @map("task_order")
+  status          String    @default("pending")
+  skipReason      String?   @map("skip_reason")
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt       DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
+  dailyPlan       DailyPlan @relation(fields: [dailyPlanId], references: [id], onDelete: Cascade)
+  subject         Subject?  @relation(fields: [subjectId], references: [id])
 
   @@index([dailyPlanId])
   @@map("plan_tasks")
@@ -149,9 +140,8 @@ model WeeklyGoal {
   description   String?
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  subject       Subject? @relation(fields: [subjectId], references: [id])
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, subjectId, weekStartDate])
   @@index([userId, weekStartDate(sort: Desc)])
@@ -169,8 +159,7 @@ model MonthlyGoal {
   subjects      String[] @default([])
   createdAt     DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt     DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, monthYear, goalName])
   @@index([userId, monthYear(sort: Desc)])
@@ -186,34 +175,31 @@ model Streak {
   totalStudyDays Int       @default(0) @map("total_study_days")
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz(6)
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("streaks")
 }
 
 model Achievement {
-  id               String   @id @default(uuid())
-  name             String   @unique
+  id               String            @id @default(uuid())
+  name             String            @unique
   description      String?
   icon             String?
   category         String?
-  requirementValue Int?     @map("requirement_value")
-  createdAt        DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
+  requirementValue Int?              @map("requirement_value")
+  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(6)
   userAchievements UserAchievement[]
 
   @@map("achievements")
 }
 
 model UserAchievement {
-  id            String   @id @default(uuid())
-  userId        String   @map("user_id")
-  achievementId String   @map("achievement_id")
-  earnedAt      DateTime @default(now()) @map("earned_at") @db.Timestamptz(6)
-
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  id            String      @id @default(uuid())
+  userId        String      @map("user_id")
+  achievementId String      @map("achievement_id")
+  earnedAt      DateTime    @default(now()) @map("earned_at") @db.Timestamptz(6)
+  achievement   Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, achievementId])
   @@map("user_achievements")
@@ -227,8 +213,7 @@ model Notification {
   type      String   @default("info")
   isRead    Boolean  @default(false) @map("is_read")
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead, createdAt(sort: Desc)])
   @@map("notifications")

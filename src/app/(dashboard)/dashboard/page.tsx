@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { StudyCalendar } from '@/components/StudyCalendar'
 import { toast } from 'sonner'
 import { format } from 'date-fns'
 
@@ -260,6 +261,9 @@ export default function DashboardPage() {
                     </Card>
                 </div>
             </div>
+
+            {/* Study Calendar Heatmap */}
+            <StudyCalendar />
         </div>
     )
 }
