@@ -367,12 +367,12 @@ This project is licensed under the MIT License – see LICENSE file for details.
 
 ## 👤 Author
 
-**Vedavrat Paul**  
-*Full-stack Developer | Focus Scholar*
+Vedavrat Paul
+
 
 ---
 
-## 🙏 Acknowledgments
+##🙏 Acknowledgments
 
 - Pomodoro technique inspiration
 - shadcn/ui component library
