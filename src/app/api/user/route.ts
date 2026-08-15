@@ -4,6 +4,8 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/db'
 import { successResponse, unauthorizedResponse, errorResponse } from '@/lib/api-response'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
     try {
         const session = await getServerSession(authOptions)
